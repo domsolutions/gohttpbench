@@ -197,6 +197,14 @@ func NewClient(config *Config) *http.Client {
 		InsecureSkipVerify: true,
 	}
 
+	if config.mtlsCert != "" && config.mtlsKey != "" {
+		cert, err := tls.LoadX509KeyPair(config.mtlsCert, config.mtlsKey)
+		if err != nil {
+			panic(err)
+		}
+		tlsconfig.Certificates = []tls.Certificate{cert}
+	}
+
 	// TODO: tcp options
 	// TODO: monitor tcp metrics
 	transport := &http.Transport{
@@ -214,6 +222,10 @@ func NewHTTPRequest(config *Config) (request *http.Request, err error) {
 
 	if config.method == "POST" || config.method == "PUT" {
 		body = bytes.NewReader(config.bodyContent)
+	}
+
+	if config.mtlsCert != "" {
+
 	}
 
 	request, err = http.NewRequest(config.method, config.url, body)

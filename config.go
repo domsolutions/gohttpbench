@@ -33,6 +33,9 @@ type Config struct {
 	url  string
 	host string
 	port int
+
+	mtlsCert string
+	mtlsKey  string
 }
 
 func LoadConfig() (config *Config, err error) {
@@ -44,6 +47,9 @@ func LoadConfig() (config *Config, err error) {
 	request := flag.Int("n", 1, "Number of requests to perform")
 	concurrency := flag.Int("c", 1, "Number of multiple requests to make")
 	timelimit := flag.Int("t", 0, "Seconds to max. wait for responses")
+
+	mTLSCert := flag.String("mtls-cert", "", "mTLS cert")
+	mTLSKey := flag.String("mtls-key", "", "mTLS private key")
 
 	postFile := flag.String("p", "", "File containing data to POST. Remember also to set -T")
 	putFile := flag.String("u", "", "File containing data to PUT. Remember also to set -T")
@@ -89,6 +95,8 @@ func LoadConfig() (config *Config, err error) {
 	config = &Config{}
 	config.requests = *request
 	config.concurrency = *concurrency
+	config.mtlsKey = *mTLSKey
+	config.mtlsCert = *mTLSCert
 
 	switch {
 	case *postFile != "":
