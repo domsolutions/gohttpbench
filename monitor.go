@@ -67,15 +67,11 @@ loop:
 				break loop
 			}
 
-			if m.c.config.requests != 0 && stats.totalRequests >= 10 {
-				if stats.totalRequests%(m.c.config.requests/10) == 0 {
-					fmt.Printf("Completed %d requests\n", stats.totalRequests)
-				}
-			} else if m.c.config.requests == 0 && stats.totalRequests >= 10 && stats.totalRequests%(1000) == 0 {
+			if stats.totalRequests >= 10 && stats.totalRequests%(m.c.config.requests/10) == 0 {
 				fmt.Printf("Completed %d requests\n", stats.totalRequests)
 			}
 
-			if m.c.config.timelimit == 0 && stats.totalRequests == m.c.config.requests {
+			if m.c.config.timelimit != 0 && stats.totalRequests == m.c.config.requests {
 				fmt.Printf("Finished %d requests\n", stats.totalRequests)
 				break loop
 			}
