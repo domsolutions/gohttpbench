@@ -71,7 +71,7 @@ loop:
 				fmt.Printf("Completed %d requests\n", stats.totalRequests)
 			}
 
-			if m.c.config.timelimit != 0 && stats.totalRequests == m.c.config.requests {
+			if m.c.config.timelimit == 0 && stats.totalRequests == m.c.config.requests {
 				fmt.Printf("Finished %d requests\n", stats.totalRequests)
 				break loop
 			}
