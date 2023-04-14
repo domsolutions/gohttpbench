@@ -45,7 +45,7 @@ func LoadConfig() (config *Config, err error) {
 	flag.IntVar(&GoMaxProcs, "G", runtime.NumCPU(), "Number of CPU")
 	flag.BoolVar(&ContinueOnError, "r", false, "Don't exit when errors")
 
-	timeWindow := flag.Int("tw", 1, "Time to run test")
+	timeWindow := flag.Int("tw", 0, "Time to run test")
 	request := flag.Int("n", 1, "Number of requests to perform")
 	concurrency := flag.Int("c", 1, "Number of multiple requests to make")
 	timelimit := flag.Int("t", 0, "Seconds to max. wait for responses")
