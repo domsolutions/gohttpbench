@@ -40,10 +40,18 @@ func main() {
 func startBenchmark(context *Context) {
 	PrintHeader()
 
-	benchmark := NewBenchmark(context)
-	monitor := NewMonitor(context, benchmark.collector)
-	go monitor.Run()
-	go benchmark.Run()
+	if context.config.executionWindow != 0 {
+		benchmark := NewBenchmarkTime(context)
+		monitor := NewMonitor(context, benchmark.bench.collector)
+		go monitor.Run()
+		go benchmark.Run()
+		PrintReport(context, <-monitor.output)
+	} else {
+		benchmark := NewBenchmark(context)
+		monitor := NewMonitor(context, benchmark.collector)
+		go monitor.Run()
+		go benchmark.Run()
+		PrintReport(context, <-monitor.output)
+	}
 
-	PrintReport(context, <-monitor.output)
 }

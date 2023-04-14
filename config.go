@@ -19,6 +19,7 @@ type Config struct {
 	concurrency      int
 	timelimit        int
 	executionTimeout time.Duration
+	executionWindow  time.Duration
 
 	method              string
 	bodyContent         []byte
@@ -44,6 +45,7 @@ func LoadConfig() (config *Config, err error) {
 	flag.IntVar(&GoMaxProcs, "G", runtime.NumCPU(), "Number of CPU")
 	flag.BoolVar(&ContinueOnError, "r", false, "Don't exit when errors")
 
+	timeWindow := flag.Int("tw", 1, "Time to run test")
 	request := flag.Int("n", 1, "Number of requests to perform")
 	concurrency := flag.Int("c", 1, "Number of multiple requests to make")
 	timelimit := flag.Int("t", 0, "Seconds to max. wait for responses")
@@ -97,6 +99,7 @@ func LoadConfig() (config *Config, err error) {
 	config.concurrency = *concurrency
 	config.mtlsKey = *mTLSKey
 	config.mtlsCert = *mTLSCert
+	config.executionWindow = time.Second * time.Duration(*(timeWindow))
 
 	switch {
 	case *postFile != "":
@@ -143,7 +146,7 @@ func LoadConfig() (config *Config, err error) {
 	}
 
 	// validate configuration
-	if config.requests < 1 || config.concurrency < 1 || config.timelimit < 0 || GoMaxProcs < 1 || Verbosity < 0 {
+	if (config.requests < 1 && config.executionWindow == 0) || config.concurrency < 1 || config.timelimit < 0 || GoMaxProcs < 1 || Verbosity < 0 {
 		err = errors.New("wrong number of arguments")
 		return
 	}
