@@ -13,7 +13,7 @@ type BenchmarkTime struct {
 func NewBenchmarkTime(context *Context) *BenchmarkTime {
 	collector := make(chan *Record, 1e7)
 	return &BenchmarkTime{
-		executionTime: context.config.executionWindow,
+		executionTime: context.config.timelimit,
 		bench:         &Benchmark{context, collector}}
 }
 

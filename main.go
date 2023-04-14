@@ -12,7 +12,7 @@ import (
 const (
 	GBVersion           = "0.1.9"
 	MaxExecutionTimeout = time.Duration(30) * time.Second
-	MaxRequests         = 50000 // for timelimit
+	MaxRequests         = 50000 // for timelimNewBenchmarkTimeit
 )
 
 var (
@@ -40,7 +40,7 @@ func main() {
 func startBenchmark(context *Context) {
 	PrintHeader()
 
-	if context.config.executionWindow != 0 {
+	if context.config.timelimit != 0 {
 		benchmark := NewBenchmarkTime(context)
 		monitor := NewMonitor(context, benchmark.bench.collector)
 		go monitor.Run()
