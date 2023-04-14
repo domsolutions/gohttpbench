@@ -151,7 +151,7 @@ func LoadConfig() (config *Config, err error) {
 		return
 	}
 
-	if config.concurrency > config.requests {
+	if config.concurrency > config.requests && config.executionWindow == 0 {
 		err = errors.New("Cannot use concurrency level greater than total number of requests")
 		return
 	}
