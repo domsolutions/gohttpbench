@@ -67,7 +67,9 @@ loop:
 				break loop
 			}
 
-			if stats.totalRequests >= 10 && stats.totalRequests%(m.c.config.requests/10) == 0 {
+			if m.c.config.requests != 0 && stats.totalRequests >= 10 && stats.totalRequests%(m.c.config.requests/10) == 0 {
+				fmt.Printf("Completed %d requests\n", stats.totalRequests)
+			} else if m.c.config.requests == 0 && stats.totalRequests >= 10 && stats.totalRequests%(1000) == 0 {
 				fmt.Printf("Completed %d requests\n", stats.totalRequests)
 			}
 
