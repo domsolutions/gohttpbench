@@ -117,10 +117,8 @@ func LoadConfig() (config *Config, err error) {
 
 	if *timelimit > 0 {
 		config.timelimit = time.Duration(*timelimit) * time.Second
-		if config.requests == 1 {
-			config.requests = MaxRequests
-		}
 	}
+
 	config.executionTimeout = MaxExecutionTimeout
 
 	config.contentType = *contentType

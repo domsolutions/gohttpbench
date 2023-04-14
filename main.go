@@ -40,7 +40,7 @@ func main() {
 func startBenchmark(context *Context) {
 	PrintHeader()
 
-	if context.config.timelimit != 0 {
+	if context.config.timelimit > 0 {
 		benchmark := NewBenchmarkTime(context)
 		monitor := NewMonitor(context, benchmark.bench.collector)
 		go monitor.Run()

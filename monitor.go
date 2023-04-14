@@ -44,7 +44,7 @@ func (m *Monitor) Run() {
 
 	var timelimiter <-chan time.Time
 	if m.c.config.timelimit > 0 {
-		t := time.NewTimer(time.Duration(m.c.config.timelimit) * time.Second)
+		t := time.NewTimer(m.c.config.timelimit)
 		defer t.Stop()
 		timelimiter = t.C
 	}
@@ -71,7 +71,7 @@ loop:
 				fmt.Printf("Completed %d requests\n", stats.totalRequests)
 			}
 
-			if stats.totalRequests == m.c.config.requests {
+			if m.c.config.timelimit == 0 && stats.totalRequests == m.c.config.requests {
 				fmt.Printf("Finished %d requests\n", stats.totalRequests)
 				break loop
 			}
